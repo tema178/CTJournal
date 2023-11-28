@@ -1,0 +1,32 @@
+package ctjournal.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+import java.util.List;
+
+@Entity
+@Table(name = "climbing_sessions")
+public class ClimbingSession {
+
+    @Id
+    private long id;
+
+    private long startTime;
+
+    private long endTime;
+
+    @OneToMany(targetEntity = Route.class, fetch = FetchType.EAGER, mappedBy = "climbingSession")
+    private List<Route> routes;
+
+    @MapsId
+    @OneToOne(targetEntity = Workout.class)
+    @JoinColumn(name = "id")
+    private Workout workout;
+}
