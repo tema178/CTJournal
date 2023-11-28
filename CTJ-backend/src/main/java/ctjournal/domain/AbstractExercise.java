@@ -30,6 +30,4 @@ public abstract class AbstractExercise {
     @ManyToOne(targetEntity = ExerciseSession.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_session_id")
     private ExerciseSession exerciseSession;
-
-
 }
