@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClimbingSession {
+public class ClimbingSessionDto {
 
     private long id;
 
@@ -23,11 +23,7 @@ public class ClimbingSession {
 
     private WorkoutDto workout;
 
-    public ClimbingSession(long id) {
+    public ClimbingSessionDto(long id) {
         this.id = id;
-    }
-
-    public ClimbingSession(WorkoutState workoutState) {
-        this.workout = new WorkoutDto(workoutState.getId());
     }
 }

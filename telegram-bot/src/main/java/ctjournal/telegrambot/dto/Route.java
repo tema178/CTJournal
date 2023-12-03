@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Route {
+public class Route implements Serializable {
 
     private long id;
 
@@ -17,7 +19,7 @@ public class Route {
 
     private Type type;
 
-    private GradeDto grade;
+    private long grade;
 
     private SendStyle sendStyle;
 
@@ -31,5 +33,5 @@ public class Route {
 
     private String comment;
 
-    private ClimbingSession climbingSession;
+    private long climbingSession;
 }

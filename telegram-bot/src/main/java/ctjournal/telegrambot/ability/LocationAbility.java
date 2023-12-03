@@ -1,9 +1,12 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.db.States;
 import ctjournal.telegrambot.dto.Location;
 import ctjournal.telegrambot.dto.WorkoutState;
+import ctjournal.telegrambot.repository.StatesRepository;
+import ctjournal.telegrambot.repository.WorkoutRepository;
 import ctjournal.telegrambot.service.LocationService;
+import ctjournal.telegrambot.service.WorkoutService;
+import ctjournal.telegrambot.utils.KeyboardFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -15,14 +18,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.BiConsumer;
 
-import static ctjournal.telegrambot.ability.KeyboardFactory.NEW_LOCATION;
-import static ctjournal.telegrambot.ability.KeyboardFactory.VIEW_LOCATIONS;
+import static ctjournal.telegrambot.utils.KeyboardFactory.NEW_LOCATION;
+import static ctjournal.telegrambot.utils.KeyboardFactory.SET_LOCATION;
+import static ctjournal.telegrambot.utils.KeyboardFactory.VIEW_LOCATIONS;
+import static ctjournal.telegrambot.db.States.CREATING_LOCATION;
+import static ctjournal.telegrambot.db.States.MAIN_MENU;
 import static ctjournal.telegrambot.db.States.WAITING_LOCATION_NAME;
-import static ctjournal.telegrambot.db.Tables.STATES;
-import static ctjournal.telegrambot.db.Tables.WORKOUTS;
 import static java.lang.String.format;
 import static org.telegram.abilitybots.api.util.AbilityUtils.getChatId;
 
@@ -34,17 +37,29 @@ public class LocationAbility implements AbilityExtension {
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private WorkoutService workoutService;
+
+    @Autowired
+    private WorkoutRepository workoutRepository;
+
+    @Autowired
+    private StatesRepository statesRepository;
+
     public Reply saveLocationName() {
         BiConsumer<BaseAbilityBot, Update> action = (bot, upd) -> {
             Long id = getChatId(upd);
-            bot.db().getMap(STATES.name()).put(id.toString(), States.CREATING_LOCATION);
+            statesRepository.save(id.toString(), CREATING_LOCATION);
             String place = upd.getMessage().getText();
             long location = locationService.createLocation(place);
-            Map<String, WorkoutState> workouts = bot.db().getMap(WORKOUTS.name());
-            WorkoutState workoutState = workouts.getOrDefault(id.toString(), new WorkoutState());
-            workoutState.setLocation(location);
-            workouts.put(id.toString(), workoutState);
-            bot.db().getMap(STATES.name()).put(id.toString(), States.MAIN_MENU);
+            WorkoutState workout = workoutRepository.findByUserId(id.toString());
+            if (workout == null) {
+                workout = new WorkoutState();
+            }
+            workout.setLocation(location);
+            workoutRepository.save(id.toString(), workout);
+            workoutService.updateLocation(workout);
+            statesRepository.save(id.toString(), MAIN_MENU);
 
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText(format("Место %s создано", place));
@@ -58,7 +73,7 @@ public class LocationAbility implements AbilityExtension {
         };
         return Reply.of(action, update ->
                 update.hasMessage()
-                        && abilityBot.db().getMap(STATES.name()).get(getChatId(update).toString()) == WAITING_LOCATION_NAME
+                        && statesRepository.findByUserId(getChatId(update).toString()) == WAITING_LOCATION_NAME
         );
     }
 
@@ -66,8 +81,7 @@ public class LocationAbility implements AbilityExtension {
         return Reply.of(
                 (bot, upd) -> {
                     bot.silent().send("Введите название места:", getChatId(upd));
-                    Map<String, States> states = bot.db().getMap(STATES.name());
-                    states.put(getChatId(upd).toString(), WAITING_LOCATION_NAME);
+                    statesRepository.save(getChatId(upd).toString(), WAITING_LOCATION_NAME);
                 },
                 upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().equals(NEW_LOCATION));
 
@@ -90,6 +104,27 @@ public class LocationAbility implements AbilityExtension {
 
                 },
                 upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().equals(VIEW_LOCATIONS));
+
+    }
+
+    public Reply setLocations() {
+        return Reply.of(
+                (bot, upd) -> {
+                    long location = Long.parseLong(upd.getCallbackQuery().getData().substring(SET_LOCATION.length()));
+                    WorkoutState workout = workoutRepository.findByUserId(getChatId(upd).toString());
+                    workout.setLocation(location);
+                    workoutService.updateLocation(workout);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText("Место тренировки изменено");
+                    sendMessage.setChatId(getChatId(upd));
+                    sendMessage.setReplyMarkup(KeyboardFactory.mainKeyboard());
+                    try {
+                        bot.sender().execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().startsWith(SET_LOCATION));
 
     }
 }

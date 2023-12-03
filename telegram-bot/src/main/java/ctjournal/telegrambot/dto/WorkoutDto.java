@@ -38,4 +38,8 @@ public class WorkoutDto {
         this.date = date;
         this.startTime = startTime;
     }
+
+    public WorkoutDto(long id) {
+        this.id = id;
+    }
 }
