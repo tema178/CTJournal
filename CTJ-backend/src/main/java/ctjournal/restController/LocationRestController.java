@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,8 +28,13 @@ public class LocationRestController {
         return service.findAll(name);
     }
 
-    @PostMapping("/api/location/")
-    public Location save(Location location) {
+    @GetMapping("/api/location")
+    public List<Location> findAll() {
+        return service.findAll();
+    }
+
+    @PostMapping("/api/location")
+    public Location save(@RequestBody Location location) {
         return service.save(location);
     }
 

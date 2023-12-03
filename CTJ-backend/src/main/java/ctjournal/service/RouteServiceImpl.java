@@ -1,6 +1,6 @@
 package ctjournal.service;
 
-import ctjournal.domain.Route;
+import ctjournal.dto.RouteDto;
 import ctjournal.repository.RouteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,18 +14,18 @@ public class RouteServiceImpl implements RouteService {
     private final RouteRepository repository;
 
     @Override
-    public Route save(Route route) {
-        return repository.save(route);
+    public RouteDto save(RouteDto route) {
+        return RouteDto.domainToDto(repository.save(route.toDomain()));
     }
 
     @Override
-    public Route findById(long id) {
-        return repository.findById(id).orElseThrow(NullPointerException::new);
+    public RouteDto findById(long id) {
+        return RouteDto.domainToDto(repository.findById(id).orElseThrow(NullPointerException::new));
     }
 
     @Override
-    public List<Route> findByClimbingSessionId(long climbingSessionId) {
-        return repository.findByClimbingSessionId(climbingSessionId);
+    public List<RouteDto> findByClimbingSessionId(long climbingSessionId) {
+        return RouteDto.domainToDto(repository.findByClimbingSessionId(climbingSessionId));
     }
 
     @Override

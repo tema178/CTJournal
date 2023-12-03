@@ -1,15 +1,15 @@
 package ctjournal.service;
 
-import ctjournal.domain.Route;
+import ctjournal.dto.RouteDto;
 
 import java.util.List;
 
 public interface RouteService {
-    Route save(Route route);
+    RouteDto save(RouteDto route);
 
-    Route findById(long id);
+    RouteDto findById(long id);
 
-    List<Route> findByClimbingSessionId(long climbingSessionId);
+    List<RouteDto> findByClimbingSessionId(long climbingSessionId);
 
     void delete(long id);
 }

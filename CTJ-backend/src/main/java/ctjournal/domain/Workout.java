@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -46,8 +46,8 @@ public class Workout {
     @OneToMany(targetEntity = ExerciseSession.class, fetch = LAZY, cascade = ALL, mappedBy = "workout")
     private List<ExerciseSession> warmUp;
 
-    @OneToOne(targetEntity = ClimbingSession.class, fetch = LAZY, cascade = ALL)
-    @JoinColumn(name = "climbing_session_id", referencedColumnName = "id")
+    @OneToOne(targetEntity = ClimbingSession.class, fetch = LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private ClimbingSession climbingSession;
 
     @OneToMany(targetEntity = ExerciseSession.class, fetch = LAZY, cascade = ALL, mappedBy = "workout")

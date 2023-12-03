@@ -1,10 +1,9 @@
 package ctjournal.service;
 
-import ctjournal.exceptions.BookServiceException;
+import ctjournal.domain.Workout;
 import ctjournal.repository.WorkoutRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ctjournal.domain.Workout;
 
 import java.util.List;
 
@@ -12,26 +11,26 @@ import java.util.List;
 @Component
 public class WorkoutServiceImpl implements WorkoutService {
 
-    private final WorkoutRepository workoutRepository;
+    private final WorkoutRepository repository;
 
 
     @Override
-    public Workout save(Workout book) throws BookServiceException {
-        return null;
+    public Workout save(Workout workout) {
+        return repository.save(workout);
     }
 
     @Override
     public List<Workout> getAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
     public Workout getById(long id) {
-        return null;
+        return repository.findById(id).orElseThrow(NullPointerException::new);
     }
 
     @Override
     public void deleteById(long id) {
-
+        repository.deleteById(id);
     }
 }

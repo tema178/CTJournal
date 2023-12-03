@@ -13,4 +13,6 @@ public interface LocationService {
     Location save(Location location);
 
     Location setFavourite(long id, boolean favourite);
+
+    List<Location> findAll();
 }

@@ -30,7 +30,7 @@ public class Route {
     private Type type;
 
     @ManyToOne(targetEntity = Grade.class)
-    @JoinColumn(name = "grade_id", nullable = false)
+    @JoinColumn(name = "grade_id")
     private Grade grade;
 
     private SendStyle sendStyle;

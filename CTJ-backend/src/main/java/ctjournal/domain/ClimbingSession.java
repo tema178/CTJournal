@@ -30,11 +30,15 @@ public class ClimbingSession {
 
     private long endTime;
 
-    @OneToMany(targetEntity = Route.class, fetch = FetchType.EAGER, mappedBy = "climbingSession")
+    @OneToMany(targetEntity = Route.class, fetch = FetchType.LAZY, mappedBy = "climbingSession")
     private List<Route> routes;
 
     @MapsId
-    @OneToOne(targetEntity = Workout.class)
+    @OneToOne(targetEntity = Workout.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private Workout workout;
+
+    public ClimbingSession(long id) {
+        this.id = id;
+    }
 }

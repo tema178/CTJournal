@@ -25,6 +25,10 @@ public class LocationServiceImpl implements LocationService {
         return repository.findAllByUser(user);
     }
 
+    public List<Location> findAll() {
+        return repository.findAll();
+    }
+
     public Location save(Location location) {
         return repository.save(location);
     }

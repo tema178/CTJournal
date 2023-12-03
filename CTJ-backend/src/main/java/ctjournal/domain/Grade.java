@@ -6,11 +6,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "grades")
 public class Grade {
 
@@ -29,5 +31,9 @@ public class Grade {
     private String australian;
 
     private String southAfrica;
+
+    public Grade(long id) {
+        this.id = id;
+    }
 
 }
