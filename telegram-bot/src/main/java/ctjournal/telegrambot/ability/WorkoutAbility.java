@@ -1,6 +1,6 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.dto.WorkoutState;
+import ctjournal.telegrambot.domain.WorkoutState;
 import ctjournal.telegrambot.repository.StatesRepository;
 import ctjournal.telegrambot.repository.WorkoutRepository;
 import ctjournal.telegrambot.service.WorkoutService;
@@ -14,7 +14,7 @@ import org.telegram.abilitybots.api.util.AbilityExtension;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import static ctjournal.telegrambot.db.States.FINISHED;
+import static ctjournal.telegrambot.domain.States.FINISHED;
 import static org.telegram.abilitybots.api.objects.Locality.ALL;
 import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 

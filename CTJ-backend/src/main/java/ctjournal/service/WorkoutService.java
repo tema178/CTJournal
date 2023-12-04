@@ -1,12 +1,11 @@
 package ctjournal.service;
 
 import ctjournal.domain.Workout;
-import ctjournal.exceptions.BookServiceException;
 
 import java.util.List;
 
 public interface WorkoutService {
-    Workout save(Workout book) throws BookServiceException;
+    Workout save(Workout book);
 
     List<Workout> getAll();
 

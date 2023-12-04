@@ -1,7 +1,7 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.dto.Grade;
-import ctjournal.telegrambot.dto.Route;
+import ctjournal.telegrambot.domain.Grade;
+import ctjournal.telegrambot.domain.Route;
 import ctjournal.telegrambot.repository.RouteRepository;
 import ctjournal.telegrambot.service.GradeService;
 import ctjournal.telegrambot.service.RouteService;

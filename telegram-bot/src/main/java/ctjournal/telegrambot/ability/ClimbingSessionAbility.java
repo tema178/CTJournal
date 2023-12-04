@@ -1,7 +1,7 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.dto.ClimbingSession;
-import ctjournal.telegrambot.dto.WorkoutState;
+import ctjournal.telegrambot.domain.ClimbingSession;
+import ctjournal.telegrambot.domain.WorkoutState;
 import ctjournal.telegrambot.repository.WorkoutRepository;
 import ctjournal.telegrambot.service.ClimbingSessionService;
 import ctjournal.telegrambot.service.WorkoutService;

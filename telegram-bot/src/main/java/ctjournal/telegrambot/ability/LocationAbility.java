@@ -1,7 +1,7 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.dto.Location;
-import ctjournal.telegrambot.dto.WorkoutState;
+import ctjournal.telegrambot.domain.Location;
+import ctjournal.telegrambot.domain.WorkoutState;
 import ctjournal.telegrambot.repository.StatesRepository;
 import ctjournal.telegrambot.repository.WorkoutRepository;
 import ctjournal.telegrambot.service.LocationService;
@@ -23,9 +23,9 @@ import java.util.function.BiConsumer;
 import static ctjournal.telegrambot.utils.KeyboardFactory.NEW_LOCATION;
 import static ctjournal.telegrambot.utils.KeyboardFactory.SET_LOCATION;
 import static ctjournal.telegrambot.utils.KeyboardFactory.VIEW_LOCATIONS;
-import static ctjournal.telegrambot.db.States.CREATING_LOCATION;
-import static ctjournal.telegrambot.db.States.MAIN_MENU;
-import static ctjournal.telegrambot.db.States.WAITING_LOCATION_NAME;
+import static ctjournal.telegrambot.domain.States.CREATING_LOCATION;
+import static ctjournal.telegrambot.domain.States.MAIN_MENU;
+import static ctjournal.telegrambot.domain.States.WAITING_LOCATION_NAME;
 import static java.lang.String.format;
 import static org.telegram.abilitybots.api.util.AbilityUtils.getChatId;
 

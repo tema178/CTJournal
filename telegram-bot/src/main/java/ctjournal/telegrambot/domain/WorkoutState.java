@@ -1,4 +1,4 @@
-package ctjournal.telegrambot.dto;
+package ctjournal.telegrambot.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

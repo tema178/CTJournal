@@ -1,11 +1,11 @@
 package ctjournal.telegrambot.utils;
 
-import ctjournal.telegrambot.dto.DifficultyLevel;
-import ctjournal.telegrambot.dto.Grade;
-import ctjournal.telegrambot.dto.Location;
-import ctjournal.telegrambot.dto.Route;
-import ctjournal.telegrambot.dto.SendStyle;
-import ctjournal.telegrambot.dto.Type;
+import ctjournal.telegrambot.domain.DifficultyLevel;
+import ctjournal.telegrambot.domain.Grade;
+import ctjournal.telegrambot.domain.Location;
+import ctjournal.telegrambot.domain.Route;
+import ctjournal.telegrambot.domain.SendStyle;
+import ctjournal.telegrambot.domain.Type;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;

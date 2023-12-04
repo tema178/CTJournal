@@ -1,5 +1,9 @@
 package ctjournal.telegrambot.dto;
 
+import ctjournal.telegrambot.domain.ClimbingSession;
+import ctjournal.telegrambot.domain.DifficultyLevel;
+import ctjournal.telegrambot.domain.ExerciseSession;
+import ctjournal.telegrambot.domain.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
 package ctjournal.telegrambot.dto;
 
+import ctjournal.telegrambot.domain.Route;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

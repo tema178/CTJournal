@@ -1,5 +1,6 @@
-package ctjournal.telegrambot.dto;
+package ctjournal.telegrambot.domain;
 
+import ctjournal.telegrambot.dto.WorkoutDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

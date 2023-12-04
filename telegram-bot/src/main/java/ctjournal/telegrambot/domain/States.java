@@ -1,4 +1,4 @@
-package ctjournal.telegrambot.db;
+package ctjournal.telegrambot.domain;
 
 public enum States {
 

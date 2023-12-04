@@ -1,28 +1,9 @@
 package ctjournal.telegrambot.repository;
 
-import ctjournal.telegrambot.dto.WorkoutState;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
-import org.telegram.abilitybots.api.db.DBContext;
+import ctjournal.telegrambot.domain.WorkoutState;
 
-import java.util.Map;
+public interface WorkoutRepository {
+    void save(String userId, WorkoutState workoutState);
 
-@RequiredArgsConstructor
-@Repository
-public class WorkoutRepository {
-
-    private static final String WORKOUTS = "WORKOUTS";
-    private final DBContext db;
-
-    private Map<String, WorkoutState> getTable() {
-        return db.getMap(WORKOUTS);
-    }
-
-    public void save(String userId, WorkoutState workoutState) {
-        getTable().put(userId, workoutState);
-    }
-
-    public WorkoutState findByUserId(String userId) {
-        return getTable().get(userId);
-    }
+    WorkoutState findByUserId(String userId);
 }

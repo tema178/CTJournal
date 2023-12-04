@@ -1,60 +1,16 @@
 package ctjournal.telegrambot.service;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ctjournal.telegrambot.dto.ClimbingSession;
-import ctjournal.telegrambot.dto.Route;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import ctjournal.telegrambot.domain.ClimbingSession;
+import ctjournal.telegrambot.domain.Route;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-@Service
-public class RouteService {
+public interface RouteService {
+    Route create(String name, ClimbingSession climbingSession);
 
-    public Route create(String name, ClimbingSession climbingSession) {
-        Route route = new Route();
-        route.setName(name);
-        route.setClimbingSession(climbingSession.getId());
-        return update(route);
-    }
+    Route update(Route route);
 
-    public Route update(Route route) {
-        try {
-            RestTemplate template = new RestTemplate();
-            var headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request =
-                    new HttpEntity<>(new ObjectMapper().writeValueAsString(route), headers);
-            var response = template.postForEntity(
-                    "http://localhost:9001/api/route", request, Route.class);
-            return response.getBody();
+    List<Route> getRoutes(long climbingSessionId);
 
-        } catch (JacksonException e) {
-
-        }
-        return null;
-    }
-
-    public List<Route> getRoutes(long climbingSessionId) {
-        RestTemplate template = new RestTemplate();
-        Map<String, String> urlPathVariables = new HashMap<>();
-        ResponseEntity<Route[]> response = template.getForEntity(
-                "http://localhost:9001/api/route/session/" + climbingSessionId, Route[].class, urlPathVariables);
-        return List.of(response.getBody());
-    }
-
-    public Route getRoute(long id) {
-        RestTemplate template = new RestTemplate();
-        Map<String, String> urlPathVariables = new HashMap<>();
-        ResponseEntity<Route> response = template.getForEntity(
-                "http://localhost:9001/api/route/" + id, Route.class, urlPathVariables);
-        return response.getBody();
-    }
+    Route getRoute(long id);
 }

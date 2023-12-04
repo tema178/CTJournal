@@ -1,7 +1,7 @@
 package ctjournal.telegrambot.utils;
 
-import ctjournal.telegrambot.dto.Grade;
-import ctjournal.telegrambot.dto.Route;
+import ctjournal.telegrambot.domain.Grade;
+import ctjournal.telegrambot.domain.Route;
 
 import java.util.List;
 
