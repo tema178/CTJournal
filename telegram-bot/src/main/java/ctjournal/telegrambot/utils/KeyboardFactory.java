@@ -1,9 +1,11 @@
 package ctjournal.telegrambot.utils;
 
+import ctjournal.telegrambot.dto.DifficultyLevel;
 import ctjournal.telegrambot.dto.GradeDto;
 import ctjournal.telegrambot.dto.Location;
 import ctjournal.telegrambot.dto.Route;
 import ctjournal.telegrambot.dto.SendStyle;
+import ctjournal.telegrambot.dto.Type;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -23,8 +25,18 @@ public class KeyboardFactory {
     public static final String EDIT_GRADE = "edit grade";
     public static final String SET_GRADE = "set grade";
     public static final String EDIT_SEND_STYLE = "edit send style";
-    public static final String SET_SEND_STYLE = "set grade";
+    public static final String SET_SEND_STYLE = "set send style";
+    public static final String SET_DIFFICULTY_LEVEL = "set difficulty level";
+    public static final String SET_ROUTE_TYPE = "set route type";
     public static final String EDIT_ATTEMPTS = "edit attempts";
+    public static final String EDIT_REDPOINT_ATTEMPTS = "edit redpoint attempts";
+    public static final String EDIT_RATING = "edit rating";
+    public static final String EDIT_DIFFICULTY_LEVEL = "edit difficulty level";
+    public static final String EDIT_COMMENT = "edit comment";
+    public static final String RETURN_TO_CLIMBING_SESSION = "return to climbing session";
+    public static final String EDIT_ROUTE_TYPE = "edit route type";
+    public static final String EDIT_ROUTE_NAME = "edit route name";
+    public static final String SET_ROUTE = "set route";
 
     private KeyboardFactory() {
     }
@@ -88,11 +100,15 @@ public class KeyboardFactory {
     public static ReplyKeyboard routeKeyboard(Route route) {
         InlineKeyboardButton editName = InlineKeyboardButton.builder()
                 .text("Редактировать название")
-                .callbackData("edit route name")
+                .callbackData(EDIT_ROUTE_NAME)
                 .build();
         InlineKeyboardButton editGrade = InlineKeyboardButton.builder()
                 .text("Редактировать категорию")
                 .callbackData(EDIT_GRADE)
+                .build();
+        InlineKeyboardButton editRouteType = InlineKeyboardButton.builder()
+                .text("Указать дисциплину")
+                .callbackData(EDIT_ROUTE_TYPE)
                 .build();
         InlineKeyboardButton editSendStyle = InlineKeyboardButton.builder()
                 .text("Указать стиль пролаза")
@@ -104,27 +120,28 @@ public class KeyboardFactory {
                 .build();
         InlineKeyboardButton editAttemptsForRedPoint = InlineKeyboardButton.builder()
                 .text("Указать количество попыток - redpoint")
-                .callbackData("edit redpoint attempts")
+                .callbackData(EDIT_REDPOINT_ATTEMPTS)
                 .build();
         InlineKeyboardButton editRating = InlineKeyboardButton.builder()
                 .text("Добавить оценку")
-                .callbackData("edit rating")
+                .callbackData(EDIT_RATING)
                 .build();
         InlineKeyboardButton editDifficultyLevel = InlineKeyboardButton.builder()
                 .text("Указать уровень сложности")
-                .callbackData("edit difficulty level")
+                .callbackData(EDIT_DIFFICULTY_LEVEL)
                 .build();
         InlineKeyboardButton editComment = InlineKeyboardButton.builder()
                 .text("Добавить комментарий")
-                .callbackData("edit comment")
+                .callbackData(EDIT_COMMENT)
                 .build();
         InlineKeyboardButton returnToClimbingSession = InlineKeyboardButton.builder()
                 .text("Вернуться")
-                .callbackData("return to climbing session")
+                .callbackData(RETURN_TO_CLIMBING_SESSION)
                 .build();
         List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
         matrix.add(List.of(editName));
         matrix.add(List.of(editGrade));
+        matrix.add(List.of(editRouteType));
         matrix.add(List.of(editSendStyle));
         matrix.add(List.of(editAttempts));
         matrix.add(List.of(editAttemptsForRedPoint));
@@ -179,12 +196,48 @@ public class KeyboardFactory {
         return new InlineKeyboardMarkup(matrix);
     }
 
+    public static ReplyKeyboard viewRoutes(List<Route> routes) {
+        List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
+        for (var route : routes) {
+            InlineKeyboardButton button = InlineKeyboardButton.builder()
+                    .text(route.getName())
+                    .callbackData(SET_ROUTE + route.getId())
+                    .build();
+            matrix.add(List.of(button));
+        }
+        return new InlineKeyboardMarkup(matrix);
+    }
+
     public static ReplyKeyboard viewStyles() {
         List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
         for (var style : SendStyle.values()) {
             InlineKeyboardButton button = InlineKeyboardButton.builder()
                     .text(style.name())
                     .callbackData(SET_SEND_STYLE + style.name())
+                    .build();
+            matrix.add(List.of(button));
+        }
+        return new InlineKeyboardMarkup(matrix);
+    }
+
+    public static ReplyKeyboard viewDifficultyLevel() {
+        List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
+        for (var difficultyLevel : DifficultyLevel.values()) {
+            InlineKeyboardButton button = InlineKeyboardButton.builder()
+                    .text(difficultyLevel.name())
+                    .callbackData(SET_DIFFICULTY_LEVEL + difficultyLevel.name())
+                    .build();
+            matrix.add(List.of(button));
+        }
+        return new InlineKeyboardMarkup(matrix);
+    }
+
+    public static ReplyKeyboard viewRouteType() {
+        List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
+        for (var type : Type.values()) {
+            InlineKeyboardButton button = InlineKeyboardButton.builder()
+                    .text(type.name())
+                    .callbackData(SET_ROUTE_TYPE + type.name())
                     .build();
             matrix.add(List.of(button));
         }

@@ -7,8 +7,13 @@ import ctjournal.telegrambot.dto.Route;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class RouteService {
@@ -21,7 +26,6 @@ public class RouteService {
     }
 
     public Route update(Route route) {
-//        RouteDto routeDto = RouteDto.convertFromRoute(route);
         try {
             RestTemplate template = new RestTemplate();
             var headers = new HttpHeaders();
@@ -38,4 +42,19 @@ public class RouteService {
         return null;
     }
 
+    public List<Route> getRoutes(long climbingSessionId) {
+        RestTemplate template = new RestTemplate();
+        Map<String, String> urlPathVariables = new HashMap<>();
+        ResponseEntity<Route[]> response = template.getForEntity(
+                "http://localhost:9001/api/route/session/" + climbingSessionId, Route[].class, urlPathVariables);
+        return List.of(response.getBody());
+    }
+
+    public Route getRoute(long id) {
+        RestTemplate template = new RestTemplate();
+        Map<String, String> urlPathVariables = new HashMap<>();
+        ResponseEntity<Route> response = template.getForEntity(
+                "http://localhost:9001/api/route/" + id, Route.class, urlPathVariables);
+        return response.getBody();
+    }
 }
