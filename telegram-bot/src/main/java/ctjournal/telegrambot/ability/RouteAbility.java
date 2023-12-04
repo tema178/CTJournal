@@ -387,7 +387,6 @@ public class RouteAbility implements AbilityExtension {
 
     }
 
-
     public Reply editComment() {
         return Reply.of(
                 (bot, upd) -> {
@@ -396,7 +395,6 @@ public class RouteAbility implements AbilityExtension {
                     bot.silent().send("Введите комментарий:", getChatId(upd));
                 },
                 upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().equals(EDIT_COMMENT));
-
     }
 
     public Reply setComment() {
@@ -414,7 +412,6 @@ public class RouteAbility implements AbilityExtension {
                 upd ->
                         upd.hasMessage()
                                 && statesRepository.findByUserId(getChatId(upd).toString()) == WAITING_ROUTE_COMMENT);
-
     }
 
     public Reply editRouteName() {
