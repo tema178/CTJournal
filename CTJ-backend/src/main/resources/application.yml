@@ -25,6 +25,9 @@ spring:
     level:
       ROOT: ERROR
 
+jwt:
+  private.key: classpath:app.key
+  public.key: classpath:app.pub
 
 server:
   port: 9001

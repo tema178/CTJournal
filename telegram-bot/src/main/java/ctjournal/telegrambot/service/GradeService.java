@@ -5,7 +5,7 @@ import ctjournal.telegrambot.domain.Grade;
 import java.util.List;
 
 public interface GradeService {
-    List<Grade> getGrades();
+    List<Grade> getGrades(String id);
 
-    Grade getGrade(long id);
+    Grade getGrade(long id, String userId);
 }

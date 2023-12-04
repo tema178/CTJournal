@@ -51,14 +51,14 @@ public class LocationAbility implements AbilityExtension {
             Long id = getChatId(upd);
             statesRepository.save(id.toString(), CREATING_LOCATION);
             String place = upd.getMessage().getText();
-            long location = locationService.createLocation(place);
+            long location = locationService.createLocation(place, id.toString());
             WorkoutState workout = workoutRepository.findByUserId(id.toString());
             if (workout == null) {
                 workout = new WorkoutState();
             }
             workout.setLocation(location);
             workoutRepository.save(id.toString(), workout);
-            workoutService.updateLocation(workout);
+            workoutService.updateLocation(workout, id.toString());
             statesRepository.save(id.toString(), MAIN_MENU);
 
             SendMessage sendMessage = new SendMessage();
@@ -111,12 +111,13 @@ public class LocationAbility implements AbilityExtension {
         return Reply.of(
                 (bot, upd) -> {
                     long location = Long.parseLong(upd.getCallbackQuery().getData().substring(SET_LOCATION.length()));
-                    WorkoutState workout = workoutRepository.findByUserId(getChatId(upd).toString());
+                    Long id = getChatId(upd);
+                    WorkoutState workout = workoutRepository.findByUserId(id.toString());
                     workout.setLocation(location);
-                    workoutService.updateLocation(workout);
+                    workoutService.updateLocation(workout, id.toString());
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText("Место тренировки изменено");
-                    sendMessage.setChatId(getChatId(upd));
+                    sendMessage.setChatId(id);
                     sendMessage.setReplyMarkup(KeyboardFactory.mainKeyboard());
                     try {
                         bot.sender().execute(sendMessage);

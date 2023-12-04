@@ -41,7 +41,7 @@ public class ClimbingSessionAbility implements AbilityExtension {
             Long id = getChatId(upd);
             WorkoutState workout = workoutRepository.findByUserId(id.toString());
             if (workout.getClimbingSession() == 0) {
-                ClimbingSession climbingSession = service.create(workout);
+                ClimbingSession climbingSession = service.create(workout, id.toString());
                 workout.setClimbingSession(climbingSession.getId());
                 workoutRepository.save(id.toString(), workout);
             }

@@ -1,6 +1,5 @@
 package ctjournal.telegrambot.initializer;
 
-import ctjournal.telegrambot.ability.TelegramBot;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;

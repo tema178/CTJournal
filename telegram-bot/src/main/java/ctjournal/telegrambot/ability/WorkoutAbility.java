@@ -45,7 +45,7 @@ public class WorkoutAbility implements AbilityExtension {
     private void createWorkout(MessageContext ctx) {
         String id = ctx.user().getId().toString();
         if (workoutRepository.findByUserId(id) == null || statesRepository.findByUserId(id) == null || statesRepository.findByUserId(id) == FINISHED) {
-            long workout = workoutService.createWorkout().getId();
+            long workout = workoutService.createWorkout(id).getId();
             workoutRepository.save(id, WorkoutState.builder().id(workout).build());
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText("Где сегодня тренируемся?");

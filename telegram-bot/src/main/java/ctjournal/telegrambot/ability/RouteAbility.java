@@ -92,7 +92,7 @@ public class RouteAbility implements AbilityExtension {
             Long id = getChatId(upd);
             String name = upd.getMessage().getText();
             WorkoutState workout = workoutRepository.findByUserId(id.toString());
-            Route route = service.create(name, new ClimbingSession(workout.getClimbingSession()));
+            Route route = service.create(name, new ClimbingSession(workout.getClimbingSession()), id.toString());
             routeRepository.save(id.toString(), route);
 
             SendMessage sendMessage = new SendMessage();
@@ -115,7 +115,7 @@ public class RouteAbility implements AbilityExtension {
         BiConsumer<BaseAbilityBot, Update> action = (bot, upd) -> {
             Long id = getChatId(upd);
             WorkoutState workout = workoutRepository.findByUserId(id.toString());
-            List<Route> routes = service.getRoutes(workout.getClimbingSession());
+            List<Route> routes = service.getRoutes(workout.getClimbingSession(), id.toString());
             SendMessage sendMessage = new SendMessage();
             sendMessage.setText(RouteToStringTransformer.transform(routes));
             sendMessage.setChatId(id);
@@ -135,7 +135,7 @@ public class RouteAbility implements AbilityExtension {
         BiConsumer<BaseAbilityBot, Update> action = (bot, upd) -> {
             Long id = getChatId(upd);
             WorkoutState workout = workoutRepository.findByUserId(id.toString());
-            List<Route> routes = service.getRoutes(workout.getClimbingSession());
+            List<Route> routes = service.getRoutes(workout.getClimbingSession(), id.toString());
             String text;
             ReplyKeyboard replyMarkup;
             if (routes == null || routes.isEmpty()) {
@@ -163,7 +163,7 @@ public class RouteAbility implements AbilityExtension {
         BiConsumer<BaseAbilityBot, Update> action = (bot, upd) -> {
             Long id = getChatId(upd);
             long routeId = Long.parseLong(upd.getCallbackQuery().getData().substring(SET_ROUTE.length()));
-            Route route = service.getRoute(routeId);
+            Route route = service.getRoute(routeId, id.toString());
             routeRepository.save(id.toString(), route);
             sendRouteKeyboard(bot, upd, route);
         };
@@ -196,7 +196,7 @@ public class RouteAbility implements AbilityExtension {
                     Route route = routeRepository.findByUserId(id.toString());
                     route.setSendStyle(SendStyle.valueOf(sendStyle));
                     routeRepository.save(id.toString(), route);
-                    service.update(route);
+                    service.update(route,id.toString());
 
                     sendRouteKeyboard(bot, upd, route);
                 },
@@ -228,7 +228,7 @@ public class RouteAbility implements AbilityExtension {
                             Route route = routeRepository.findByUserId(id.toString());
                             route.setAttempts(attempts);
                             routeRepository.save(id.toString(), route);
-                            service.update(route);
+                            service.update(route, id.toString());
                             statesRepository.save(id.toString(), ROUTE_MENU);
 
                             sendRouteKeyboard(bot, upd, route);
@@ -267,7 +267,7 @@ public class RouteAbility implements AbilityExtension {
                             Route route = routeRepository.findByUserId(id.toString());
                             route.setAttemptsForRedPoint(attempts);
                             routeRepository.save(id.toString(), route);
-                            service.update(route);
+                            service.update(route, id.toString());
                             statesRepository.save(id.toString(), ROUTE_MENU);
 
                             sendRouteKeyboard(bot, upd, route);
@@ -306,7 +306,7 @@ public class RouteAbility implements AbilityExtension {
                             Route route = routeRepository.findByUserId(id.toString());
                             route.setRating(rating);
                             routeRepository.save(id.toString(), route);
-                            service.update(route);
+                            service.update(route, id.toString());
                             statesRepository.save(id.toString(), ROUTE_MENU);
 
                             sendRouteKeyboard(bot, upd, route);
@@ -346,7 +346,7 @@ public class RouteAbility implements AbilityExtension {
                     Route route = routeRepository.findByUserId(id.toString());
                     route.setDifficultyLevel(DifficultyLevel.valueOf(difficultyLevel));
                     routeRepository.save(id.toString(), route);
-                    service.update(route);
+                    service.update(route, id.toString());
 
                     sendRouteKeyboard(bot, upd, route);
                 },
@@ -379,7 +379,7 @@ public class RouteAbility implements AbilityExtension {
                     Route route = routeRepository.findByUserId(id.toString());
                     route.setType(Type.valueOf(difficultyLevel));
                     routeRepository.save(id.toString(), route);
-                    service.update(route);
+                    service.update(route, id.toString());
 
                     sendRouteKeyboard(bot, upd, route);
                 },
@@ -406,7 +406,7 @@ public class RouteAbility implements AbilityExtension {
                     Route route = routeRepository.findByUserId(id.toString());
                     route.setComment(upd.getMessage().getText());
                     routeRepository.save(id.toString(), route);
-                    service.update(route);
+                    service.update(route, id.toString());
                     statesRepository.save(id.toString(), ROUTE_MENU);
 
                     sendRouteKeyboard(bot, upd, route);
@@ -435,7 +435,7 @@ public class RouteAbility implements AbilityExtension {
                     Route route = routeRepository.findByUserId(id.toString());
                     route.setName(upd.getMessage().getText());
                     routeRepository.save(id.toString(), route);
-                    service.update(route);
+                    service.update(route, id.toString());
                     statesRepository.save(id.toString(), ROUTE_MENU);
 
                     sendRouteKeyboard(bot, upd, route);
