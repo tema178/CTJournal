@@ -25,7 +25,7 @@ public class RouteDto {
 
     private Type type;
 
-    private long grade;
+    private Grade grade;
 
     private SendStyle sendStyle;
 
@@ -42,15 +42,13 @@ public class RouteDto {
     private long climbingSession;
 
     public static RouteDto domainToDto(Route route) {
-        long newGrade = route.getGrade() == null ? 0 : route.getGrade().getId();
-        return new RouteDto(route.getId(), route.getName(), route.getType(), newGrade,
+        return new RouteDto(route.getId(), route.getName(), route.getType(), route.getGrade(),
                 route.getSendStyle(), route.getAttempts(), route.getAttemptsForRedPoint(), route.getRating(),
                 route.getDifficultyLevel(), route.getComment(), route.getClimbingSession().getId());
     }
 
     public Route toDomain() {
-        Grade newGrade = this.getGrade() == 0 ? null : new Grade(this.getGrade());
-        return new Route(this.getId(), this.getName(), this.getType(), newGrade,
+        return new Route(this.getId(), this.getName(), this.getType(), this.getGrade(),
                 this.getSendStyle(), this.getAttempts(), this.getAttemptsForRedPoint(), this.getRating(),
                 this.getDifficultyLevel(), this.getComment(), new ClimbingSession(this.getClimbingSession()));
     }

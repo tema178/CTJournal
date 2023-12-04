@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class GradeDto implements Serializable {
+public class Grade implements Serializable {
 
     private long id;
 
@@ -23,7 +23,7 @@ public class GradeDto implements Serializable {
 
     private String southAfrica;
 
-    public GradeDto(long id) {
+    public Grade(long id) {
         this.id = id;
     }
 

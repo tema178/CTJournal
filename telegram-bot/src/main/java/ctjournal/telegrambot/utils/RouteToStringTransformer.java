@@ -1,5 +1,6 @@
 package ctjournal.telegrambot.utils;
 
+import ctjournal.telegrambot.dto.Grade;
 import ctjournal.telegrambot.dto.Route;
 
 import java.util.List;
@@ -10,9 +11,11 @@ public class RouteToStringTransformer {
     }
 
     public static String transform(Route route) {
+        Grade grade = route.getGrade();
+        String gradeText = grade == null ? "Не указана" : grade.getFrench();
         return "Имя: " + route.getName() + '\n' +
                 "Тип: " + route.getType() + '\n' +
-                "Категория: " + route.getGrade() + '\n' +
+                "Категория: " + gradeText + '\n' +
                 "Стиль прохождения: " + route.getSendStyle() + '\n' +
                 "Количество попыток: " + route.getAttempts() + '\n' +
                 "Количество попыток RedPoint: " + route.getAttemptsForRedPoint() + '\n' +

@@ -1,7 +1,7 @@
 package ctjournal.telegrambot.utils;
 
 import ctjournal.telegrambot.dto.DifficultyLevel;
-import ctjournal.telegrambot.dto.GradeDto;
+import ctjournal.telegrambot.dto.Grade;
 import ctjournal.telegrambot.dto.Location;
 import ctjournal.telegrambot.dto.Route;
 import ctjournal.telegrambot.dto.SendStyle;
@@ -37,6 +37,7 @@ public class KeyboardFactory {
     public static final String EDIT_ROUTE_TYPE = "edit route type";
     public static final String EDIT_ROUTE_NAME = "edit route name";
     public static final String SET_ROUTE = "set route";
+    public static final String RETURN_TO_MAIN_MENU = "return to main menu";
 
     private KeyboardFactory() {
     }
@@ -85,15 +86,19 @@ public class KeyboardFactory {
                 .text("Редактировать трассу")
                 .callbackData(EDIT_ROUTE)
                 .build();
-
         InlineKeyboardButton viewRoutes = InlineKeyboardButton.builder()
                 .text("Просмотреть трассы")
                 .callbackData(VIEW_ROUTES)
+                .build();
+        InlineKeyboardButton returnToMainMenu = InlineKeyboardButton.builder()
+                .text("Вернуться в главное меню")
+                .callbackData(RETURN_TO_MAIN_MENU)
                 .build();
         List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
         matrix.add(List.of(addRoute));
         matrix.add(List.of(editRoute));
         matrix.add(List.of(viewRoutes));
+        matrix.add(List.of(returnToMainMenu));
         return new InlineKeyboardMarkup(matrix);
     }
 
@@ -184,9 +189,9 @@ public class KeyboardFactory {
         return new InlineKeyboardMarkup(matrix);
     }
 
-    public static ReplyKeyboard viewGrades(List<GradeDto> grades) {
+    public static ReplyKeyboard viewGrades(List<Grade> grades) {
         List<List<InlineKeyboardButton>> matrix = new ArrayList<>();
-        for (GradeDto gradeDto : grades) {
+        for (Grade gradeDto : grades) {
             InlineKeyboardButton button = InlineKeyboardButton.builder()
                     .text(gradeDto.getFrench())
                     .callbackData(SET_GRADE + gradeDto.getId())

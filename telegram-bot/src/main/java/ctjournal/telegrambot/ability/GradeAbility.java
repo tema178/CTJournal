@@ -1,6 +1,6 @@
 package ctjournal.telegrambot.ability;
 
-import ctjournal.telegrambot.dto.GradeDto;
+import ctjournal.telegrambot.dto.Grade;
 import ctjournal.telegrambot.dto.Route;
 import ctjournal.telegrambot.repository.RouteRepository;
 import ctjournal.telegrambot.service.GradeService;
@@ -39,7 +39,7 @@ public class GradeAbility implements AbilityExtension {
     public Reply editGrade() {
         return Reply.of(
                 (bot, upd) -> {
-                    List<GradeDto> grades = gradeService.getGrades();
+                    List<Grade> grades = gradeService.getGrades();
                     SendMessage sendMessage = new SendMessage();
                     sendMessage.setText("Выберите категорию:");
                     sendMessage.setChatId(getChatId(upd));
@@ -57,9 +57,10 @@ public class GradeAbility implements AbilityExtension {
     public Reply setGrade() {
         return Reply.of(
                 (bot, upd) -> {
-                    long grade = Long.parseLong(upd.getCallbackQuery().getData().substring(SET_GRADE.length()));
+                    long gradeId = Long.parseLong(upd.getCallbackQuery().getData().substring(SET_GRADE.length()));
                     Long id = getChatId(upd);
                     Route route = routeRepository.findByUserId(id.toString());
+                    Grade grade = gradeService.getGrade(gradeId);
                     route.setGrade(grade);
                     routeRepository.save(id.toString(), route);
                     routeService.update(route);

@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import static ctjournal.telegrambot.db.States.CLIMBING_SESSION_MENU;
+import static ctjournal.telegrambot.db.States.MAIN_MENU;
 import static ctjournal.telegrambot.db.States.ROUTE_MENU;
 import static ctjournal.telegrambot.db.States.WAITING_ATTEMPTS;
 import static ctjournal.telegrambot.db.States.WAITING_RAITING;
@@ -46,6 +47,7 @@ import static ctjournal.telegrambot.utils.KeyboardFactory.EDIT_ROUTE_NAME;
 import static ctjournal.telegrambot.utils.KeyboardFactory.EDIT_ROUTE_TYPE;
 import static ctjournal.telegrambot.utils.KeyboardFactory.EDIT_SEND_STYLE;
 import static ctjournal.telegrambot.utils.KeyboardFactory.RETURN_TO_CLIMBING_SESSION;
+import static ctjournal.telegrambot.utils.KeyboardFactory.RETURN_TO_MAIN_MENU;
 import static ctjournal.telegrambot.utils.KeyboardFactory.SET_DIFFICULTY_LEVEL;
 import static ctjournal.telegrambot.utils.KeyboardFactory.SET_ROUTE;
 import static ctjournal.telegrambot.utils.KeyboardFactory.SET_ROUTE_TYPE;
@@ -445,7 +447,7 @@ public class RouteAbility implements AbilityExtension {
     }
 
 
-    public Reply editRouteReturn() {
+    public Reply returnToClimbingSessionMenu() {
         return Reply.of(
                 (bot, upd) -> {
                     Long id = getChatId(upd);
@@ -461,6 +463,24 @@ public class RouteAbility implements AbilityExtension {
                     }
                 },
                 upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().equals(RETURN_TO_CLIMBING_SESSION));
+    }
+
+    public Reply returnToMainMenu() {
+        return Reply.of(
+                (bot, upd) -> {
+                    Long id = getChatId(upd);
+                    statesRepository.save(id.toString(), MAIN_MENU);
+                    SendMessage sendMessage = new SendMessage();
+                    sendMessage.setText("Выберите действие:");
+                    sendMessage.setChatId(getChatId(upd));
+                    sendMessage.setReplyMarkup(KeyboardFactory.mainKeyboard());
+                    try {
+                        bot.sender().execute(sendMessage);
+                    } catch (TelegramApiException e) {
+                        throw new RuntimeException(e);
+                    }
+                },
+                upd -> upd.hasCallbackQuery() && upd.getCallbackQuery().getData().equals(RETURN_TO_MAIN_MENU));
     }
 
     private static void sendRouteKeyboard(BaseAbilityBot bot, Update upd, Route route) {

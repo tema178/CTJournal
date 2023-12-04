@@ -19,12 +19,12 @@ public class LocationRestController {
     private final LocationService service;
 
     @GetMapping("/api/location/{id}")
-    public Location findById(long id) {
+    public Location findById(@PathVariable long id) {
         return service.findById(id);
     }
 
     @GetMapping("/api/location/user/{name}")
-    public List<Location> findAll(String name) {
+    public List<Location> findAll(@PathVariable String name) {
         return service.findAll(name);
     }
 

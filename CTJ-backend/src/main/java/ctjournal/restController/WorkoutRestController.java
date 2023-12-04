@@ -32,7 +32,7 @@ public class WorkoutRestController {
 //    }
 
     @DeleteMapping("/api/workout/{id}")
-    public void delete(long id) {
+    public void delete(@PathVariable long id) {
         service.deleteById(id);
     }
 }

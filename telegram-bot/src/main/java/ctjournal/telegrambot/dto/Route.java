@@ -19,7 +19,7 @@ public class Route implements Serializable {
 
     private Type type;
 
-    private long grade;
+    private Grade grade;
 
     private SendStyle sendStyle;
 
